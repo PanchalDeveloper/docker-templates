@@ -1,0 +1,28 @@
+version: '3'
+services:
+  db:
+    image: mariadb:latest
+    container_name: mariadb-db
+    restart: on-failure
+    environment:
+      MARIADB_ROOT_PASSWORD: Aman@123!
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - "./data:/var/lib/mysql"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: Aman@123!
+    depends_on:
+      - db
+
